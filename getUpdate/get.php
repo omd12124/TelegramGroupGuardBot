@@ -6,7 +6,7 @@ include '../helper/config.php';
 
 $Content=file_get_contents('php://input');
 $Object=json_decode($Content,true);
-
+$x=0;
 $CHARSET='set NAMES utf8;';
 $DB_CONNECTING->query($CHARSET);
 $QUERY=null;

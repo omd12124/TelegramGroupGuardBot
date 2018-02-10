@@ -17,12 +17,12 @@ function isAdministrator($Chat_Member)
 function getLockStatus($CHAT_ID,$DB_CONNECTING)
 {
     //return array (chat,sticker,link)
-    $result=array(0,0,0);
+    $result=array(0,0,0,0);
     
     //$CHARSET='set NAMES utf8;';
     //$DB_CONNECTING->query($CHARSET);
     
-    $db_query="SELECT `chatid`, `chat`, `sticker`, `forward`, `link` FROM `lockeditems` WHERE chatid=".$CHAT_ID;
+    $db_query="SELECT `chatid`, `chat`, `sticker`, `forward`, `link` ,`gif`  FROM `lockeditems` WHERE chatid=".$CHAT_ID;
     $res=$DB_CONNECTING->query($db_query);
     $row=$res->fetch_assoc();
     if(isset($row['chatid']) or $row['chatid']!="")
@@ -31,6 +31,7 @@ function getLockStatus($CHAT_ID,$DB_CONNECTING)
         $result[0]=$row['chat'];
         $result[1]=$row['sticker'];
         $result[2]=$row['link'];
+        $result[3]=$row['gif'];
         
         
     }

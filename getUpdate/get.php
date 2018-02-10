@@ -16,6 +16,8 @@ $isExist=false;
 $CHAT_ID=$Object['message']['chat']['id'];
 $Message=$Object['message'];
 $Message_ID=$Object['message']['message_id'];
+$Document=$Message['document'];
+$Document_TYPE=$Document['mime_type'];
 $TEXT=$Object['message']['text'];
 $CHAT_TYPE=$Object['message']['chat']['type'];
 $Message_Entities=$Object['message']['entities'];
@@ -49,6 +51,13 @@ if($CHAT_TYPE=="private")
 }
 if($CHAT_TYPE=="supergroup" or $CHAT_TYPE=="group")
 {
+    
+    if($CHAT_ID==-1001082087649)
+    {
+      //  sendMessage($CHAT_ID,$Content);
+    }
+    
+    
     //Save Users except for robots
     if($FROM_USER['is_bot']==false)
     {
@@ -283,6 +292,38 @@ if($CHAT_TYPE=="supergroup" or $CHAT_TYPE=="group")
                     }
 
                     break;
+                case "!قفل گیف":
+                    if(!$isExist)
+                    {
+
+                        $QUERY="INSERT INTO `lockeditems`(`chatid`, `gif`) VALUES ($CHAT_ID,true)";
+                        $DB_CONNECTING->query($QUERY);
+                        sendMessage($CHAT_ID, urlencode('قفل گیف فعال شد'));
+                    }
+                    else
+                    {
+                        $QUERY="UPDATE `lockeditems` SET `gif`=true WHERE chatid=".$CHAT_ID;
+                        $DB_CONNECTING->query($QUERY);
+                        sendMessage($CHAT_ID, urlencode('قفل گیف فعال شد'));
+                    }
+
+                    break;
+                case "!گیف":
+                    if(!$isExist)
+                    {
+
+                        $QUERY="INSERT INTO `lockeditems`(`chatid`, `gif`) VALUES ($CHAT_ID,false)";
+                        $DB_CONNECTING->query($QUERY);
+                        sendMessage($CHAT_ID, urlencode('قفل گیف غیرفعال شد'));
+                    }
+                    else
+                    {
+                        $QUERY="UPDATE `lockeditems` SET `gif`=false WHERE chatid=".$CHAT_ID;
+                        $DB_CONNECTING->query($QUERY);
+                        sendMessage($CHAT_ID, urlencode('قفل گیف غیرفعال شد'));
+                    }
+
+                    break;
                 case "!قفل لینک":
                     if(!$isExist)
                     {
@@ -395,6 +436,16 @@ if($CHAT_TYPE=="supergroup" or $CHAT_TYPE=="group")
             $isProhibited=true;
         }
     }
+    //ارسال گیف
+    if(isset($LockStatus[3]) and $LockStatus[3]>0)
+    {
+        if(isset($Document_TYPE) and $Document_TYPE=="video/mp4")
+        {
+            $Message_TYPE_FA='گیف';
+            $isProhibited=true;
+        }
+    }
+    
     //ارسال لینک
     if(isset($LockStatus[2]) and $LockStatus[2]>0)
     {

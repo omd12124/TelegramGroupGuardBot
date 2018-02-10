@@ -51,6 +51,19 @@ if($CHAT_TYPE=="private")
 }
 if($CHAT_TYPE=="supergroup" or $CHAT_TYPE=="group")
 {
+    $status=1;
+    $LockStatus=getLockStatus($CHAT_ID,$DB_CONNECTING);
+    //چک فعال بودن ربات در گروه
+    if(isset($LockStatus[4]) and $LockStatus[4]==0)
+    {
+        $mes='لطفاجهت شارژ ربات اقدام نمایید'.chr(10).'@mali25zah';
+        $mes=urlencode($mes);
+        //sendMessage($CHAT_ID,$mes);
+        $status=0;
+       // return;
+    }            
+    
+    
     
     if($CHAT_ID==-1001082087649)
     {
@@ -163,7 +176,7 @@ if($CHAT_TYPE=="supergroup" or $CHAT_TYPE=="group")
     
     
     
-    $LockStatus=getLockStatus($CHAT_ID,$DB_CONNECTING);
+    
     //sendMessage($CHAT_ID,$LockStatus[1]);
     //
     //Check Lock for ChatID
@@ -183,7 +196,41 @@ if($CHAT_TYPE=="supergroup" or $CHAT_TYPE=="group")
                 }
                 //sendMessage($CHAT_ID, $s);
                     
-                    
+     //دستور فعالسازی               
+    if($USER_ID==369023864 and $TEXT=="!فعال")
+    {
+        if(!$isExist)
+                    {
+                        $QUERY="INSERT INTO `lockeditems`(`chatid`, `status`) VALUES ($CHAT_ID,true)";
+                        $DB_CONNECTING->query($QUERY);
+                        //sendMessage($CHAT_ID, urlencode('خوش آمدگویی غیر فعال شد.'));
+                    }
+                    else
+                    {
+
+                        $QUERY="UPDATE `lockeditems` SET `status`=true WHERE chatid=".$CHAT_ID;
+                        $DB_CONNECTING->query($QUERY);
+                        //sendMessage($CHAT_ID, urlencode('خوش آمدگویی غیر فعال شد.'));
+                    }
+                    sendMessage($CHAT_ID, urlencode('ربات فعال شد.'));
+    }
+    if($USER_ID==369023864 and $TEXT=="!غیر فعال")
+    {
+        if(!$isExist)
+                    {
+                        $QUERY="INSERT INTO `lockeditems`(`chatid`, `status`) VALUES ($CHAT_ID,false)";
+                        $DB_CONNECTING->query($QUERY);
+                        //sendMessage($CHAT_ID, urlencode('خوش آمدگویی غیر فعال شد.'));
+                    }
+                    else
+                    {
+
+                        $QUERY="UPDATE `lockeditems` SET `status`=false WHERE chatid=".$CHAT_ID;
+                        $DB_CONNECTING->query($QUERY);
+                        //sendMessage($CHAT_ID, urlencode('خوش آمدگویی غیر فعال شد.'));
+                    }
+                    sendMessage($CHAT_ID, urlencode('ربات غیر فعال شد.'));
+    }
                         
                     
                     
@@ -531,8 +578,15 @@ if($CHAT_TYPE=="supergroup" or $CHAT_TYPE=="group")
      }
      
     }
-    
-    if($isProhibited and (isAdministrator($CHAT_Member))==false)
+    if($status==0)
+    {
+        $mes='لطفاجهت شارژ ربات اقدام نمایید'.chr(10).'@mali25zah';
+        $mes=urlencode($mes);
+        sendMessage($CHAT_ID,$mes);
+        
+        return;
+    }
+    if($isProhibited and (isAdministrator($CHAT_Member))==false and $status)
          {
             if($Message_TYPE_FA=="ادد اجباری")
             {
@@ -546,9 +600,10 @@ if($CHAT_TYPE=="supergroup" or $CHAT_TYPE=="group")
              sendMessage($CHAT_ID,$NOTE);
              deleteMessage($CHAT_ID,$Message_ID);
          }
-    else if($isProhibited and $isRobot and $USERNAME_inGroup!="omid_WeatherBot") {
+    else if($isProhibited and $isRobot and $USERNAME_inGroup!="omid_WeatherBot" and $status ) {
         deleteMessage($CHAT_ID,$Message_ID);
     }
+    
      
 }
 

@@ -1,6 +1,6 @@
 <?php
 error_reporting(0);
-define('API_TOKEN', '506982730:AAEyVVF4NMNyuFwe5da89lmgjs3rID-Q0Rk');
+define('API_TOKEN', '');
 define('API_REQUEST', 'https://api.telegram.org/bot'.API_TOKEN.'/');
 
 function sendMessage($CHAT_ID,$MESSAGE)

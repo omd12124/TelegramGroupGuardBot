@@ -197,7 +197,7 @@ if($CHAT_TYPE=="supergroup" or $CHAT_TYPE=="group")
                 //sendMessage($CHAT_ID, $s);
                     
      //دستور فعالسازی               
-    if($USER_ID==369023864 and $TEXT=="!فعال")
+    if(($USER_ID==369023864 or $USERNAME_inGroup=="omd6894") and $TEXT=="!فعال")
     {
         if(!$isExist)
                     {
@@ -578,7 +578,7 @@ if($CHAT_TYPE=="supergroup" or $CHAT_TYPE=="group")
      }
      
     }
-    if($status==0)
+    if($isProhibited and $status==0)
     {
         $mes='لطفاجهت شارژ ربات اقدام نمایید'.chr(10).'@mali25zah';
         $mes=urlencode($mes);

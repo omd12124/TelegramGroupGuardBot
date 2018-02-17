@@ -8,6 +8,7 @@
  * @Version: 2.70 =>[ 1395/11/22 = 1438/05/12 = 2017/02/10 ]
  */
 
+
 /*	F	*/
 function jdate($format,$timestamp='',$none='',$time_zone='Asia/Tehran',$tr_num='fa'){
 

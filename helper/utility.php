@@ -212,3 +212,24 @@ function insertRobotUsers($USER_ID,$Username,$first_name,$last_name,$mobile,$DB_
     $DB_CONNECTING->query($QUERY);
     
 }
+
+function getGroupsByUserID($USER_ID,$connect)
+{
+    $groups=array();
+    $sql="SELECT `chatid` FROM `lockeditems`";
+    $result=$connect->prepare($sql);
+    $result->execute();
+    foreach($result as $rows)
+    {
+        $CHAT_ID=$rows['chatid'];
+        $Users= getChatAdmin($CHAT_ID);
+        foreach ($Users as $user)
+        {
+            if($user['user']['id']==$USER_ID)
+            {
+                $groups[]=$CHAT_ID;
+            }
+        }
+    }
+    return  $groups;
+}

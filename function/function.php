@@ -45,4 +45,14 @@ function getMe()
         return file_get_contents($Request_To_Server);
 }
 
+function getChatAdmin($CHAT_ID)
+{
+    
+        
+        $METHOD="getChatAdministrators";
+        $Request_To_Server=API_REQUEST . $METHOD ."?"."chat_id=".$CHAT_ID;
+        return file_get_contents($Request_To_Server);
+    
+}
+
 

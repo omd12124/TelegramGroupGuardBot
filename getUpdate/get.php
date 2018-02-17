@@ -40,10 +40,20 @@ if($CHAT_TYPE=="private")
 {
     if($TEXT=='/start' or $TEXT=='start')
     {
-        $mes='سلام جهت استفاده از قابلیت های رباط در گروه، ربات را در گروه خود ادمین کنید';
+        $mes='سلام جهت استفاده از قابلیت های ربات در گروه، ربات را در گروه خود ادمین کنید';
         $mes=urlencode($mes);
         sendMessage($CHAT_ID,$mes);
-        $mes='دستوزات زبات زا از من بپرسید'.chr(10).'@mali25zah';
+        $mes='دستورات ربات را از من بپرسید'.chr(10).'@mali25zah';
+        $mes=urlencode($mes);
+        sendMessage($CHAT_ID,$mes);
+        insertRobotUsers($USER_ID, $USERNAME_inGroup, $FNAME_inGroup, $LNAME_inGroup, '', $DB_CONNECTING);
+    }
+    if($TEXT=='/sharj' or $TEXT=='sharj')
+    {
+        $mes='سلام جهت استفاده از قابلیت های ربات در گروه، ربات را در گروه خود ادمین کنید';
+        $mes=urlencode($mes);
+        sendMessage($CHAT_ID,$mes);
+        $mes='دستورات ربات را از من بپرسید'.chr(10).'@mali25zah';
         $mes=urlencode($mes);
         sendMessage($CHAT_ID,$mes);
         insertRobotUsers($USER_ID, $USERNAME_inGroup, $FNAME_inGroup, $LNAME_inGroup, '', $DB_CONNECTING);

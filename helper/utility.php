@@ -251,3 +251,25 @@ function makeOrderid()
     }
     return $oid+1;
 }
+function notifyChallenge($CHAT_ID,$DB_CONNECTING)
+{
+    $k=0;
+    //send Amaar
+    $array=['نفر اول','نفر دوم','نفر سوم','نفر چهارم','نفر پنجم'];
+    $Amaar='آمار چالش ادد'.chr(10);
+    $QUERY="SELECT `chatid` , `userid` , `challengecnt` FROM `invitedlist` WHERE challengecnt>0 and chatid=".$CHAT_ID." order by challengecnt DESC limit 5";
+    $res=$DB_CONNECTING->query($QUERY);
+    while($row=$res->fetch_assoc())
+    {
+        $userid=$row['userid'];
+        $name=getfirstLastName($userid,$DB_CONNECTING);
+        $Amaar=$Amaar.$array[$k].':'.'کاربر'.' '.$name.' با تعداد '.$row['challengecnt'].chr(10);
+        $k++;
+    }
+    if($k>0)
+    {
+        $Amaar=urlencode($Amaar);
+        sendMessage($CHAT_ID,$Amaar);
+    }
+    
+}

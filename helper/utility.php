@@ -223,13 +223,31 @@ function getGroupsByUserID($USER_ID,$connect)
     {
         $CHAT_ID=$rows['chatid'];
         $Users= getChatAdmin($CHAT_ID);
+        $Users=json_decode($Users);
+        $Users=$Users->result;
         foreach ($Users as $user)
         {
-            if($user['user']['id']==$USER_ID)
+            if(isset($user->user->id) and $user->user->id==$USER_ID)
             {
                 $groups[]=$CHAT_ID;
             }
         }
     }
     return  $groups;
+}
+
+function makeOrderid()
+{
+    $oid=0;
+    $sql="SELECT `orderid` FROM `payment`";
+    $result=$connect->prepare($sql);
+    $result->execute();
+    foreach($result as $rows)
+    {
+        if($rows['orderid']>$oid)
+        {
+            $oid=$rows['orderid'];
+        }
+    }
+    return $oid+1;
 }

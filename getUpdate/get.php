@@ -3,7 +3,7 @@ error_reporting(0);
 include '../function/function.php';
 include '../helper/utility.php';
 include '../helper/config.php';
-
+//session_start();
 $Content=file_get_contents('php://input');
 $Object=json_decode($Content,true);
 
@@ -36,6 +36,7 @@ $isProhibited=false;
 $Message_TYPE_FA=null;
 $Message_Sticker=$Message['sticker'];
 $new_chat_members=$Message['new_chat_members']; //array of invitedUsers
+$GROUP_Keyboard=array();
 if($CHAT_TYPE=="private")
 {
     if($TEXT=='/start' or $TEXT=='start')
@@ -50,13 +51,19 @@ if($CHAT_TYPE=="private")
     }
     if($TEXT=='/sharj' or $TEXT=='sharj')
     {
-        $mes='سلام جهت استفاده از قابلیت های ربات در گروه، ربات را در گروه خود ادمین کنید';
+        $mes='گروه خود را انتخاب نمایید:';
         $mes=urlencode($mes);
-        sendMessage($CHAT_ID,$mes);
-        $mes='دستورات ربات را از من بپرسید'.chr(10).'@mali25zah';
-        $mes=urlencode($mes);
-        sendMessage($CHAT_ID,$mes);
-        insertRobotUsers($USER_ID, $USERNAME_inGroup, $FNAME_inGroup, $LNAME_inGroup, '', $DB_CONNECTING);
+        //sendMessage($CHAT_ID,$mes);
+        $groups=getGroupsByUserID($USER_ID, $connect);
+        if(count($groups)>0)
+        {
+            foreach ($groups as $group)
+            {
+                $GROUP_Keyboard[]=array($group);
+            }
+            $co=sendMessageWithKeyboard($CHAT_ID, $mes, $GROUP_Keyboard);
+            sendMessage($CHAT_ID,$co);
+        }
     }
 }
 if($CHAT_TYPE=="supergroup" or $CHAT_TYPE=="group")
@@ -72,7 +79,11 @@ if($CHAT_TYPE=="supergroup" or $CHAT_TYPE=="group")
         $status=0;
        // return;
     }            
-    
+    // برای شارژ ربات در گروه
+     if(isAdministrator($CHAT_Member)==true)
+     {
+         
+     }
     
     
     if($CHAT_ID==-1001082087649)

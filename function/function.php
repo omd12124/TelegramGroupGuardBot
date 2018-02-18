@@ -55,4 +55,14 @@ function getChatAdmin($CHAT_ID)
     
 }
 
+function sendMessageWithKeyboard($CHAT_ID,$MESSAGE,$Keyboard)
+{
+    
+        $METHOD="sendMessage";
+        $option_key=array("keyboard"=>$Keyboard,"resize_keyboard"=>true,"one_time_keyboard"=>true);
+        $json_Key= json_encode($option_key);
+        $Request_To_Server=API_REQUEST . $METHOD ."?"."chat_id=".$CHAT_ID."&"."text=".$MESSAGE."&"."reply_markup=".$json_Key;
+        return file_get_contents($Request_To_Server);
+}
+
 

@@ -20,14 +20,19 @@ include '../helper/jdf.php';
 //
 //echo jdate('Y/n/j H:i:s',$ts,'','','en');
 
-$admins=getChatAdmin(-1001377267460);
-$arr=json_decode($admins);
-//$admins=$admins['result'];
-$arr=$arr->result;
-print_r($arr)  ;
-echo $arr->user;
-echo '<br><br>TEST';
-echo $arr[1]['user']['id'];
-echo $arr['1']['user']['id'];
+//$admins=getChatAdmin(-1001377267460);
+//$arr=json_decode($admins);
+////$admins=$admins['result'];
+//$arr=$arr->result;
+//print_r($arr)  ;
+//echo '<br><br>TEST';
+//echo $arr[0]->user -> id;
+//
+//echo $arr[1]['user']['id'];
+//echo $arr['1']['user']['id'];
+
+$groups=getGroupsByUserID(506982730,$connect);
+
+print_r($groups);
 
 
